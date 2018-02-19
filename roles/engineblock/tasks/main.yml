@@ -66,17 +66,6 @@
       chdir: "{{ openconext_releases_dir }}/OpenConext-engineblock"
   changed_when: False
 
-# Any scripts should be placed below this
-- name: Run EngineBlock DbPatch migrations
-  command: ./bin/migrate
-  args:
-    chdir: "{{ openconext_releases_dir }}/OpenConext-engineblock"
-  register: migrate_output
-  changed_when: "'no update needed' not in migrate_output.stderr"
-  tags: enginemigrations
-  when: engine_skip_db_migration is undefined
-  run_once: true
-
 - name: Run EngineBlock Doctrine migrations
   command: "app/console doctrine:migrations:migrate -n --env={{ engine_apache_symfony_environment }}"
   args:
